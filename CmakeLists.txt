@@ -1,0 +1,33 @@
+# 设置最低版本要求
+cmake_minimum_required(VERSION 3.10)
+
+
+# 设置项目名称
+project(My_Soft)
+
+
+# 设置 C++ 标准版本
+set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# 创建静态库
+add_library(MeshLib STATIC
+    Mesh/include/Delaunay.h
+    Mesh/include/Meshbase.h
+    Mesh/include/MeshAlgorithm.h
+    Mesh/src/MeshAlgorithm.cpp
+    Mesh/src/Delaunay.cpp
+    Mesh/src/Meshbase.cpp
+)
+
+# 设置 MeshLib 的头文件路径
+target_include_directories(MeshLib PUBLIC ${CMAKE_SOURCE_DIR}/Mesh/include)
+
+# 添加头文件
+include_directories(${project_SOURCE_DIR}/Main/include)
+
+# 添加源文件
+add_executable(My_Soft Main/src/main.cpp)
+
+# 链接静态库和共享库
+target_link_libraries(My_Soft PRIVATE MeshLib)
