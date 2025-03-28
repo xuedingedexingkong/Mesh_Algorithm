@@ -1,9 +1,9 @@
 #pragma once
 #include<memory>
-#include "Physicalmesh.h"
 
-//class Point;
-//class Edge;
+
+class Point;
+class Edge;
 
 class Halfedge
 {
@@ -12,11 +12,11 @@ public:
 	using E = std::shared_ptr<Edge>;
 	using H = std::shared_ptr<Halfedge>;
 private:
-	P origin;
-	P end;
-	E oppsite;
-	H next;
-	H prev;
+	P origin = nullptr;
+	P end = nullptr;
+	E oppsite = nullptr;
+	H next = nullptr;
+	H prev = nullptr;
 };
 
 
