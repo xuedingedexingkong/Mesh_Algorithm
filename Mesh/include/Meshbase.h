@@ -1,26 +1,24 @@
 #pragma once
+#include<memory>
+#include "Physicalmesh.h"
 
+//class Point;
+//class Edge;
 
-//数据结构类-point
-class Point_base {
+class Halfedge
+{
 public:
-	Point_base(float X = 0, float Y = 0, float Z = 0) :x(X), y(Y), z(Z) {};
-	inline float getcoorx() {
-		return this->x;
-	};
-	inline float getcoory() {
-		return this->y;
-	}
-	inline float getcoorz() {
-		return this->z;
-	}
+	using P = std::shared_ptr<Point>;
+	using E = std::shared_ptr<Edge>;
+	using H = std::shared_ptr<Halfedge>;
 private:
-	float x, y, z;
+	P origin;
+	P end;
+	E oppsite;
+	H next;
+	H prev;
 };
 
-class Point :public Point_base {
-
-};
 
 
 
@@ -30,16 +28,5 @@ class Point :public Point_base {
 
 
 
-class Edge {
-public:
 
-private:
 
-};
-
-class Tranigle {
-public:
-
-private:
-
-};

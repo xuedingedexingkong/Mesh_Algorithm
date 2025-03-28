@@ -15,9 +15,11 @@ add_library(MeshLib STATIC
     Mesh/include/Delaunay.h
     Mesh/include/Meshbase.h
     Mesh/include/MeshAlgorithm.h
+    Mesh/include/Physicalmesh.h
     Mesh/src/MeshAlgorithm.cpp
     Mesh/src/Delaunay.cpp
     Mesh/src/Meshbase.cpp
+    Mesh/src/Physicalmesh.cpp
 )
 
 # 设置 MeshLib 的头文件路径
