@@ -4,21 +4,29 @@
 
 #include"Meshbase.h"
 
+
+using P = std::shared_ptr<Point>;
+using E = std::shared_ptr<Edge>;
+using T = std::shared_ptr<Triangle>;
+
 class Point
 {
 public:
-	Point(float X = 0, float Y = 0, float Z = 0) :x(X), y(Y), z(Z) {};
-	inline float getx() { return x; };
-	inline float gety() { return y; };
-	inline float getz() { return z; };
+	Point(double X = 0, double Y = 0, double Z = 0) :x(X), y(Y), z(Z) {};
+	inline double getx() { return x; };
+	inline double gety() { return y; };
+	inline double getz() { return z; };
+	inline double setx(double X) { x = X; };
+	inline double sety(double Y) { y = Y; };
+	inline double setz(double Z) { z = Z; };
 private:
-	float x, y, z;
+	double x, y, z;
 };
 
 class Edge
 {
 public:
-	using P = std::shared_ptr<Point>;
+	
 	Edge(P a, P b) :node1(a), node2(b) {};
 	inline P getNode1() { return node1; };
 	inline P getNode2() { return node2; };
@@ -30,8 +38,12 @@ private:
 class Triangle
 {
 public:
-	using P = std::shared_ptr<Point>;
-	using E = std::shared_ptr<Edge>;
+	Triangle(P a, P b, P c) 
+	{
+		edge1 = std::make_shared<Edge>(a, b);
+		edge2 = std::make_shared<Edge>(b, c);
+		edge3 = std::make_shared<Edge>(c, a);
+	}
 	Triangle(E a, E b, E c) :edge1(a), edge2(b), edge3(c) {};
 	std::vector<P> getNodes();
 	std::vector<E> getEdges();
@@ -44,7 +56,7 @@ private:
 class Mesh
 {
 public:
-	using T = std::shared_ptr<Triangle>;
+	
 	Mesh() {};
 	
 private:

@@ -4,6 +4,7 @@
 
 class Point;
 class Edge;
+class Triangle;
 
 class Halfedge
 {

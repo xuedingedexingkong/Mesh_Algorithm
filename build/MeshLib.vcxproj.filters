@@ -1,36 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="17.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="D:\work\TCAD\My_Soft\Mesh\src\MeshAlgorithm.cpp">
+    <ClCompile Include="D:\test\My_Soft\Mesh\src\MeshAlgorithm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\work\TCAD\My_Soft\Mesh\src\Delaunay.cpp">
+    <ClCompile Include="D:\test\My_Soft\Mesh\src\Delaunay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="D:\work\TCAD\My_Soft\Mesh\src\Meshbase.cpp">
+    <ClCompile Include="D:\test\My_Soft\Mesh\src\Meshbase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="D:\test\My_Soft\Mesh\src\Physicalmesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="D:\work\TCAD\My_Soft\Mesh\include\Delaunay.h">
+    <ClInclude Include="D:\test\My_Soft\Mesh\include\Delaunay.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\work\TCAD\My_Soft\Mesh\include\Meshbase.h">
+    <ClInclude Include="D:\test\My_Soft\Mesh\include\Meshbase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="D:\work\TCAD\My_Soft\Mesh\include\MeshAlgorithm.h">
+    <ClInclude Include="D:\test\My_Soft\Mesh\include\MeshAlgorithm.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="D:\test\My_Soft\Mesh\include\Physicalmesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <CustomBuild Include="D:\work\TCAD\My_Soft\CmakeLists.txt" />
+    <CustomBuild Include="D:\test\My_Soft\CmakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
-      <UniqueIdentifier>{B177DF43-3031-3670-BA55-E048D2D2971F}</UniqueIdentifier>
+      <UniqueIdentifier>{CC64BCA7-1534-37ED-8DBE-04CC5D019ABD}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files">
-      <UniqueIdentifier>{7A109580-3A6B-35DA-A90B-28389B0DB929}</UniqueIdentifier>
+      <UniqueIdentifier>{1B4E5AAC-E0FD-3236-BDBD-547256FA4F70}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
