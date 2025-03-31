@@ -1,4 +1,0 @@
-D:/test/My_Soft/build/CMakeFiles/MeshLib.dir
-D:/test/My_Soft/build/CMakeFiles/My_Soft.dir
-D:/test/My_Soft/build/CMakeFiles/ALL_BUILD.dir
-D:/test/My_Soft/build/CMakeFiles/ZERO_CHECK.dir
