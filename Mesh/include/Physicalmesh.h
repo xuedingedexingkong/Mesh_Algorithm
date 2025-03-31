@@ -11,6 +11,7 @@ using T = std::shared_ptr<Triangle>;
 
 bool operator==(const P& point1, const P& point2);
 bool operator==(const E& edge1, const E& edge2);
+P operator-(const P& point1, const P& point2);
 
 class Point
 {
@@ -23,6 +24,7 @@ public:
 	inline void sety(double Y) { y = Y; };
 	inline void setz(double Z) { z = Z; };
 
+	inline double abs() { return std::sqrt(this->x * this->x + this->y * this->y + this->z * this->z); };
 private:
 	double x, y, z;
 };

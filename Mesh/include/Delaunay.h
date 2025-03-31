@@ -17,7 +17,7 @@ namespace meshAlorithm {
 
 		std::shared_ptr<Mesh> pointsMesh();
 	private:
-		std::shared_ptr<Mesh> solver();
+		std::shared_ptr<Mesh> Bowyer_Watsonsolver();
 
 		T findSupertranigle();
 

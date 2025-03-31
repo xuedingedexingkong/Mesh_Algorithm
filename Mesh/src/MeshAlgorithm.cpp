@@ -95,3 +95,14 @@ E meshAlgorithmbase::findCommonedge(T& triangle1, T& triangle2)
 
 	return nullptr;
 }
+
+bool meshAlgorithmbase::inCircle(P& point, Circumcircle& cir) 
+{
+	auto p = point - cir.center;
+	if(p->abs() < cir.diameter / 2.0)
+	{
+		return true;
+	}
+
+	return false;
+}

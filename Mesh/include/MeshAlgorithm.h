@@ -16,6 +16,8 @@ namespace meshAlorithm {
 		Circumcircle calCircumcircle(T& triangle);
 		E findCommonedge(T& triangle1, T& triangle2);
 		void findBox(const std::vector<P>& points);
+		bool inCircle(P& point, Circumcircle& cir);
+
 
 		std::vector<double> getBox();
 		std::size_t inline getDimension() { return dimention; };

@@ -1,7 +1,7 @@
 #include"Delaunay.h"
 
 std::shared_ptr<Mesh> meshAlorithm::Delaunay::pointsMesh() {
-	return this->solver();
+	return this->Bowyer_Watsonsolver();
 }
 
 T meshAlorithm::Delaunay::findSupertranigle() 
@@ -31,13 +31,14 @@ T meshAlorithm::Delaunay::findSupertranigle()
 }
 
 //Bowyer-Watson
-std::shared_ptr<Mesh> meshAlorithm::Delaunay::solver() {
+std::shared_ptr<Mesh> meshAlorithm::Delaunay::Bowyer_Watsonsolver() {
 	//step1: structure super tranigle
 	if (points.size() < 3) {
 		std::cout << "Points number is too small.";
 		return nullptr;
 	}
 	T superTriangle = findSupertranigle();
+	auto initpoints = superTriangle->getNodes();
 
 	//step2:insert point
 	std::unordered_map<T, Circumcircle>triangleCircle;
@@ -46,7 +47,53 @@ std::shared_ptr<Mesh> meshAlorithm::Delaunay::solver() {
 	triangleCircle[superTriangle] = supercir;
 	for(auto& point: this->points)
 	{
-		if()
+		std::vector<T>commonTriangle;
+		for(auto& [triangle, circle]: triangleCircle)
+		{
+			if(inCircle(point, circle))
+			{
+				commonTriangle.emplace_back(triangle);
+			}
+		}
+
+		//first insert
+		if(commonTriangle.size() == 1)
+		{
+			if (triangleCircle.size() == 1)
+			{
+				T tr1 = std::make_shared<Triangle>(initpoints[0], initpoints[1], point);
+				T tr2 = std::make_shared<Triangle>(initpoints[0], initpoints[2], point);
+				T tr3 = std::make_shared<Triangle>(initpoints[1], initpoints[2], point);
+				auto cir1 = calCircumcircle(tr1);
+				auto cir2 = calCircumcircle(tr2);
+				auto cir3 = calCircumcircle(tr3);
+
+				triangleCircle[tr1] = cir1;
+				triangleCircle[tr2] = cir2;
+				triangleCircle[tr3] = cir3;
+
+				triangleCircle.erase(superTriangle);
+			}
+			else
+			{
+				meshError(__LINE__ + "Not found triangle.");
+			}
+		}
+		//other insert
+		else 
+		{
+			if(commonTriangle.size()!=2)
+			{
+				meshError(__LINE__ + "Too much triangle.");
+			}
+
+			auto common = findCommonedge(commonTriangle[0], commonTriangle[1]);
+			triangleCircle.erase(commonTriangle[0]);
+			triangleCircle.erase(commonTriangle[1]);
+
+
+			triangleCircle[] = 
+		}
 	}
 
 	return nullptr;

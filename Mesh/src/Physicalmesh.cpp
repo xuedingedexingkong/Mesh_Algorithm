@@ -1,5 +1,14 @@
 #include"Physicalmesh.h"
 
+P operator-(const P& point1, const P& point2)
+{
+	P point3;
+	point3->setx(point1->getx() - point2->getx());
+	point3->sety(point1->gety() - point2->gety());
+	point3->setz(point1->getz() - point2->getz());
+
+	return point3;
+}
 
 bool operator==(const P& point1, const P& point2)
 {
