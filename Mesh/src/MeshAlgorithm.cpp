@@ -1,7 +1,7 @@
 #include"MeshAlgorithm.h"
+using namespace meshAlorithm;
 
-
-void meshAlorithm::meshAlgorithmbase::findBox(const std::vector<P>& points) 
+void meshAlgorithmbase::findBox(const std::vector<P>& points) 
 {
 	xmin = points[0]->getx();
 	xmax = xmin;
@@ -33,7 +33,7 @@ void meshAlorithm::meshAlgorithmbase::findBox(const std::vector<P>& points)
 	}
 }
 
-std::vector<double>meshAlorithm::meshAlgorithmbase::getBox() {
+std::vector<double>meshAlgorithmbase::getBox() {
 	std::vector<double> box;
 	box.emplace_back(xmin);
 	box.emplace_back(xmax);
@@ -52,4 +52,46 @@ std::vector<double>meshAlorithm::meshAlgorithmbase::getBox() {
 	}
 
 	return box;
+}
+
+Circumcircle meshAlgorithmbase::calCircumcircle(T& triangle)
+{
+	P point;
+	auto points = triangle->getNodes();
+	double circumcircle = 2 * (points[0]->getx() * (points[1]->gety() - points[2]->gety()) +
+		points[1]->getx() * (points[2]->gety() - points[0]->gety()) + points[2]->getx() * (points[0]->gety() - points[1]->gety()));
+	double x = ((points[0]->getx() * points[0]->getx() + points[0]->gety() * points[0]->gety()) * (points[1]->gety() - points[2]->gety()) +
+		(points[1]->getx() * points[1]->getx() + points[1]->gety() * points[1]->gety()) * (points[2]->gety() - points[0]->gety()) +
+		(points[2]->getx() * points[2]->getx() + points[2]->gety() * points[2]->gety()) * (points[0]->gety() - points[1]->gety())) / circumcircle;
+	double y = ((points[0]->getx() * points[0]->getx() + points[0]->gety() * points[0]->gety()) * (points[2]->getx() - points[1]->getx()) +
+		(points[1]->getx() * points[1]->getx() + points[1]->gety() * points[1]->gety()) * (points[0]->getx() - points[2]->getx()) +
+		(points[2]->getx() * points[2]->getx() + points[2]->gety() * points[2]->gety()) * (points[1]->getx() - points[0]->getx()));
+	point->setx(x);
+	point->sety(y);
+
+
+	Circumcircle circle;
+	circle.center = point;
+	circle.diameter = circumcircle;
+	return circle;
+}
+
+E meshAlgorithmbase::findCommonedge(T& triangle1, T& triangle2)
+{
+	if(triangle1 == nullptr || triangle2 == nullptr)
+	{
+		std::string err = __LINE__ + "Triangle is not found.";
+		meshError(err);
+	}
+
+	auto edges = triangle2->getEdges();
+	for(auto& edge: triangle1->getEdges())
+	{
+		if(std::find(edges.begin(), edges.end(), edge) != edges.end())
+		{
+			return edge;
+		}
+	}
+
+	return nullptr;
 }

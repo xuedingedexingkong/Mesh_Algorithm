@@ -9,6 +9,9 @@ using P = std::shared_ptr<Point>;
 using E = std::shared_ptr<Edge>;
 using T = std::shared_ptr<Triangle>;
 
+bool operator==(const P& point1, const P& point2);
+bool operator==(const E& edge1, const E& edge2);
+
 class Point
 {
 public:
@@ -16,9 +19,10 @@ public:
 	inline double getx() { return x; };
 	inline double gety() { return y; };
 	inline double getz() { return z; };
-	inline double setx(double X) { x = X; };
-	inline double sety(double Y) { y = Y; };
-	inline double setz(double Z) { z = Z; };
+	inline void setx(double X) { x = X; };
+	inline void sety(double Y) { y = Y; };
+	inline void setz(double Z) { z = Z; };
+
 private:
 	double x, y, z;
 };
@@ -30,6 +34,7 @@ public:
 	Edge(P a, P b) :node1(a), node2(b) {};
 	inline P getNode1() { return node1; };
 	inline P getNode2() { return node2; };
+
 private:
 	P node1 = nullptr;
 	P node2 = nullptr;
@@ -47,6 +52,7 @@ public:
 	Triangle(E a, E b, E c) :edge1(a), edge2(b), edge3(c) {};
 	std::vector<P> getNodes();
 	std::vector<E> getEdges();
+
 private:
 	E edge1;
 	E edge2;

@@ -1,5 +1,6 @@
 #pragma once
 #include<iostream>
+#include<unordered_map>
 #include"Physicalmesh.h"
 #include"MeshAlgorithm.h"
 
@@ -8,7 +9,7 @@ namespace meshAlorithm {
 	{
 	public:
 		Delaunay() = default;
-		Delaunay(const std::vector<P>& p, std::shared_ptr<Mesh>m) : points(p), mesh(m) {};
+		Delaunay(const std::vector<P>& p, std::shared_ptr<Mesh>& m) : points(p), mesh(m) {};
 		inline void setPoints(const std::vector<P>& p) 
 		{
 			points = p;

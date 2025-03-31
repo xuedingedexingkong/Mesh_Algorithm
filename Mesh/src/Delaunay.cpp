@@ -35,8 +35,19 @@ std::shared_ptr<Mesh> meshAlorithm::Delaunay::solver() {
 	//step1: structure super tranigle
 	if (points.size() < 3) {
 		std::cout << "Points number is too small.";
+		return nullptr;
 	}
-	findSupertranigle();
+	T superTriangle = findSupertranigle();
 
-	//step2: 
+	//step2:insert point
+	std::unordered_map<T, Circumcircle>triangleCircle;
+	this->mesh = std::make_shared<Mesh>();
+	auto supercir = calCircumcircle(superTriangle);
+	triangleCircle[superTriangle] = supercir;
+	for(auto& point: this->points)
+	{
+		if()
+	}
+
+	return nullptr;
 }

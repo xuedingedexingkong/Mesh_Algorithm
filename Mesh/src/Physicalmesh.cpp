@@ -1,18 +1,43 @@
 #include"Physicalmesh.h"
 
 
-std::vector<Triangle::P> Triangle::getNodes()
+bool operator==(const P& point1, const P& point2)
 {
-	std::vector<Triangle::P>nodes;
+	if (point1->getx() == point2->getx() && point1->gety() == point2->gety())
+		return true;
+
+	return false;
+}
+
+
+bool operator==(const E& edge1, const E& edge2)
+{
+	if(edge1->getNode1() == edge2->getNode1() && edge1->getNode2() == edge2->getNode2())
+	{
+		return true;
+	}
+
+	if(edge1->getNode2() == edge2->getNode1() && edge1->getNode1() == edge2->getNode2())
+	{
+		return true;
+	}
+
+	return false;
+}
+
+
+std::vector<P> Triangle::getNodes()
+{
+	std::vector<P>nodes;
 	nodes.emplace_back(edge1->getNode1());
 	nodes.emplace_back(edge1->getNode2());
 	nodes.emplace_back(edge2->getNode2());
 	return nodes;
 }
 
-std::vector<Triangle::E> Triangle::getEdges()
+std::vector<E> Triangle::getEdges()
 {
-	std::vector<Triangle::E>edges;
+	std::vector<E>edges;
 	edges.emplace_back(edge1);
 	edges.emplace_back(edge2);
 	edges.emplace_back(edge3);
