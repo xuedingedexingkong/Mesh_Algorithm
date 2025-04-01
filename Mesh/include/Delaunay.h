@@ -5,19 +5,26 @@
 #include"MeshAlgorithm.h"
 
 namespace meshAlorithm {
+	enum DELAUNAY
+	{
+		Bowyer_Watson
+	};
+
 	class Delaunay: public meshAlgorithmbase
 	{
 	public:
 		Delaunay() = default;
-		Delaunay(const std::vector<P>& p, std::shared_ptr<Mesh>& m) : points(p), mesh(m) {};
-		inline void setPoints(const std::vector<P>& p) 
+		Delaunay(std::vector<P>& p, std::shared_ptr<Mesh>& m) : points(move(p)), mesh(m) {};
+
+		inline void setPoints(std::vector<P>& p) 
 		{
-			points = p;
+			points = std::move(p);
 		};
 
-		std::shared_ptr<Mesh> pointsMesh();
+		std::shared_ptr<Mesh>& pointsMesh(DELAUNAY method);
 	private:
-		std::shared_ptr<Mesh> Bowyer_Watsonsolver();
+
+		std::shared_ptr<Mesh>& Bowyer_Watsonsolver();
 
 		T findSupertranigle();
 

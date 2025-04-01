@@ -2,6 +2,6 @@
 
 void meshError(std::string mag)
 {
-	std::cout << mag << "\n";
+	std::cout << "[Error] " << mag << "\n";
 	exit(-1);
 }

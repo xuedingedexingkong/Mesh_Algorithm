@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.10)
 
 
 # 设置项目名称
-project(My_Soft)
+project(Mesh_Algorithm)
 
 
 # 设置 C++ 标准版本
@@ -16,20 +16,37 @@ add_library(MeshLib STATIC
     Mesh/include/Meshbase.h
     Mesh/include/MeshAlgorithm.h
     Mesh/include/Physicalmesh.h
+    Mesh/include/Mesherrormag.h
     Mesh/src/MeshAlgorithm.cpp
     Mesh/src/Delaunay.cpp
     Mesh/src/Meshbase.cpp
     Mesh/src/Physicalmesh.cpp
+    Mesh/src/Mesherrormag.cpp
 )
 
+add_library(Filelib STATIC
+    FileIO/include/Meshtovtu.h
+    FileIO/src/Meshtovtu.cpp
+)
+
+
 # 设置 MeshLib 的头文件路径
-target_include_directories(MeshLib PUBLIC ${CMAKE_SOURCE_DIR}/Mesh/include)
+target_include_directories(MeshLib PUBLIC 
+    ${CMAKE_SOURCE_DIR}/Mesh/include
+    $(CMAKE_SOURCE_DIR)/FileIO/include
+    )
+
+target_include_directories(Filelib PUBLIC 
+    ${CMAKE_SOURCE_DIR}/FileIO/include
+    ${CMAKE_SOURCE_DIR}/Mesh/include
+    )
 
 # 添加头文件
-include_directories(${project_SOURCE_DIR}/Main/include)
+# include_directories(${project_SOURCE_DIR}/Main/include)
 
 # 添加源文件
-add_executable(My_Soft Main/src/main.cpp)
+add_executable(Mesh_Algorithm Main/src/main.cpp)
 
 # 链接静态库和共享库
-target_link_libraries(My_Soft PRIVATE MeshLib)
+target_link_libraries(Mesh_Algorithm PRIVATE MeshLib)
+target_link_libraries(Mesh_Algorithm PRIVATE Filelib)

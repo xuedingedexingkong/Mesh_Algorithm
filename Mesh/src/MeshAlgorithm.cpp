@@ -56,23 +56,28 @@ std::vector<double>meshAlgorithmbase::getBox() {
 
 Circumcircle meshAlgorithmbase::calCircumcircle(T& triangle)
 {
-	P point;
+	auto point = Smart<Point>();
 	auto points = triangle->getNodes();
-	double circumcircle = 2 * (points[0]->getx() * (points[1]->gety() - points[2]->gety()) +
-		points[1]->getx() * (points[2]->gety() - points[0]->gety()) + points[2]->getx() * (points[0]->gety() - points[1]->gety()));
-	double x = ((points[0]->getx() * points[0]->getx() + points[0]->gety() * points[0]->gety()) * (points[1]->gety() - points[2]->gety()) +
-		(points[1]->getx() * points[1]->getx() + points[1]->gety() * points[1]->gety()) * (points[2]->gety() - points[0]->gety()) +
-		(points[2]->getx() * points[2]->getx() + points[2]->gety() * points[2]->gety()) * (points[0]->gety() - points[1]->gety())) / circumcircle;
-	double y = ((points[0]->getx() * points[0]->getx() + points[0]->gety() * points[0]->gety()) * (points[2]->getx() - points[1]->getx()) +
-		(points[1]->getx() * points[1]->getx() + points[1]->gety() * points[1]->gety()) * (points[0]->getx() - points[2]->getx()) +
-		(points[2]->getx() * points[2]->getx() + points[2]->gety() * points[2]->gety()) * (points[1]->getx() - points[0]->getx()));
-	point->setx(x);
-	point->sety(y);
+	double x1 = points[0]->getx();
+	double y1 = points[0]->gety();
+	double x2 = points[1]->getx();
+	double y2 = points[1]->gety();
+	double x3 = points[2]->getx();
+	double y3 = points[2]->gety();
 
+	double x0 = ((y2 - y1) * (y3 * y3 - y1 * y1 + x3 * x3 - x1 * x1) - (y3 - y1) * (y2 * y2 - y1 * y1 + x2 * x2 - x1 * x1)) /
+		(2 * (x3 - x1) * (y2 - y1) - 2 * (x2 - x1) * (y3 - y1));
+	double y0 = ((x2 - x1) * (x3 * x3 - x1 * x1 + y3 * y3 - y1 * y1) - (x3 - x1) * (x2 * x2 - x1 * x1 + y2 * y2 - y1 * y1)) /
+		(2 * (y3 - y1) * (x2 - x1) - 2 * (y2 - y1) * (x3 - x1));
+
+	point->setx(x0);
+	point->sety(y0);
+
+	double dis1 = point->distance(triangle->getNodes()[0]);
 
 	Circumcircle circle;
 	circle.center = point;
-	circle.diameter = circumcircle;
+	circle.radius = dis1;
 	return circle;
 }
 
@@ -80,7 +85,7 @@ E meshAlgorithmbase::findCommonedge(T& triangle1, T& triangle2)
 {
 	if(triangle1 == nullptr || triangle2 == nullptr)
 	{
-		std::string err = __LINE__ + "Triangle is not found.";
+		std::string err = "[Mesh] Triangle is not found.";
 		meshError(err);
 	}
 
@@ -99,10 +104,31 @@ E meshAlgorithmbase::findCommonedge(T& triangle1, T& triangle2)
 bool meshAlgorithmbase::inCircle(P& point, Circumcircle& cir) 
 {
 	auto p = point - cir.center;
-	if(p->abs() < cir.diameter / 2.0)
+	if(p->abs() < cir.radius)
 	{
 		return true;
 	}
 
 	return false;
+}
+
+std::vector<P>& meshAlgorithmbase::generate2dPoints(double xmin, double xmax, double ymin, double ymax, size_t pointnum)
+{
+	//std::random_device seed;
+	size_t seed = 10;
+	std::mt19937 gen(seed);
+
+	std::uniform_real_distribution<> dis(0.0, 1.0);
+
+	double dx = xmax - xmin;
+	double dy = ymax - ymin;
+	for(size_t i = 0; i < pointnum; i++)
+	{
+		double x = dis(gen) * dx + xmin;
+		double y = dis(gen) * dy + ymin;
+		P point = Smart<Point>(x, y);
+		generate_Points.emplace_back(point);
+	}
+
+	return generate_Points;
 }

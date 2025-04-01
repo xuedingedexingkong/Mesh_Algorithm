@@ -1,8 +1,11 @@
 #pragma once
-#include<vector>
-#include<cmath>
+#include <vector>
+#include <cmath>
+#include <unordered_map>
+#include <unordered_set>
+#include <iostream>
 
-#include"Meshbase.h"
+#include "Meshbase.h"
 
 
 using P = std::shared_ptr<Point>;
@@ -24,7 +27,12 @@ public:
 	inline void sety(double Y) { y = Y; };
 	inline void setz(double Z) { z = Z; };
 
+	double distance(P point);
 	inline double abs() { return std::sqrt(this->x * this->x + this->y * this->y + this->z * this->z); };
+	inline double abs(P point) {
+		return std::sqrt(point->getx() * point->getx() + point->gety() + point->gety() +
+			point->getz() * point->getz());
+	};
 private:
 	double x, y, z;
 };
@@ -37,6 +45,18 @@ public:
 	inline P getNode1() { return node1; };
 	inline P getNode2() { return node2; };
 
+	inline void setNode1(P& node)
+	{
+		node1 = node;
+	};
+	inline void setNode2(P& node)
+	{
+		node2 = node;
+	};
+	inline double length()
+	{
+		return node1->distance(node2);
+	};
 private:
 	P node1 = nullptr;
 	P node2 = nullptr;
@@ -47,9 +67,9 @@ class Triangle
 public:
 	Triangle(P a, P b, P c) 
 	{
-		edge1 = std::make_shared<Edge>(a, b);
-		edge2 = std::make_shared<Edge>(b, c);
-		edge3 = std::make_shared<Edge>(c, a);
+		edge1 = Smart<Edge>(a, b);
+		edge2 = Smart<Edge>(b, c);
+		edge3 = Smart<Edge>(c, a);
 	}
 	Triangle(E a, E b, E c) :edge1(a), edge2(b), edge3(c) {};
 	std::vector<P> getNodes();
@@ -66,7 +86,16 @@ class Mesh
 public:
 	
 	Mesh() {};
-	
+	const std::vector<T>& getTriangle();
+	const std::unordered_set<P>& getNode();
+
+	void setTriangle(std::vector<T>& tri);
+
+	~Mesh()
+	{
+		std::cout << "[Mesh] Success to clear mesh.\n";
+	}
 private:
-	std::vector<T>Physicaltriangle;
+	std::vector<T> Physicaltriangle;
+	std::unordered_set<P> Physicalnode;
 };
