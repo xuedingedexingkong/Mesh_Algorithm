@@ -17,7 +17,7 @@ std::shared_ptr<Mesh>& meshAlorithm::Delaunay::pointsMesh(meshAlorithm::DELAUNAY
 T meshAlorithm::Delaunay::findSupertranigle() 
 {
 	if (getDimension() == 3)
-		return nullptr;
+		meshError("[Mesh] [Delaunay] Not support 3D.");
 
 	findBox(points);
 	
@@ -59,15 +59,15 @@ std::shared_ptr<Mesh>& meshAlorithm::Delaunay::Bowyer_Watsonsolver() {
 	auto supercir = calCircumcircle(superTriangle);
 	triangleCircle[superTriangle] = supercir;
 
-	size_t num = 0;
+	//size_t num = 0;
 
 	for(auto& point: this->points)
 	{
 		FileIOVtu test;
 
-		test.meshTovtu(triangleCircle, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunaymesh_" + std::to_string(num) + ".vtu");
+		/*test.meshTovtu(triangleCircle, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunaymesh_" + std::to_string(num) + ".vtu");
 		if(num == 0) test.nodeTovtu(this->points, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunaynode_" + std::to_string(num) + ".vtu");
-		num++;
+		num++;*/
 
 		std::vector<T>commonTriangle;
 		for(auto& [triangle, circle]: triangleCircle)
@@ -98,55 +98,96 @@ std::shared_ptr<Mesh>& meshAlorithm::Delaunay::Bowyer_Watsonsolver() {
 		//other insert
 		else 
 		{
-
-			for(size_t i = 0; i < commonTriangle.size() - 1; i++)
+			std::unordered_set<E, Edge::Hash> nonCommonedge;
+			for(size_t i = 0; i < commonTriangle.size(); i++)
 			{
-				for(size_t j = i + 1; j < commonTriangle.size(); j++)
+				triangleCircle.erase(commonTriangle[i]);
+				auto allEdge = commonTriangle[i]->getEdges();
+				for(auto& edge: allEdge)
 				{
-					auto common = findCommonedge(commonTriangle[i], commonTriangle[j]);
-					if(common == nullptr)
+					auto r = nonCommonedge.insert(edge);
+					if(r.second == false)
 					{
-						continue;
+						nonCommonedge.erase(edge);
 					}
-					triangleCircle.erase(commonTriangle[i]);
-					triangleCircle.erase(commonTriangle[j]);
-
-					//get noncommon edge
-					auto nonCommonedge = commonTriangle[i]->getEdges();
-					for (auto& nonedge : commonTriangle[j]->getEdges())
-					{
-						auto it = find(nonCommonedge.begin(), nonCommonedge.end(), nonedge);
-						if (it == nonCommonedge.end())
-						{
-							nonCommonedge.emplace_back(nonedge);
-						}
-						else
-						{
-							nonCommonedge.erase(it);
-						}
-					}
-					T tr1 = Smart<Triangle>(nonCommonedge[0]->getNode1(), nonCommonedge[0]->getNode2(), point);
-					T tr2 = Smart<Triangle>(nonCommonedge[1]->getNode1(), nonCommonedge[1]->getNode2(), point);
-					T tr3 = Smart<Triangle>(nonCommonedge[2]->getNode1(), nonCommonedge[2]->getNode2(), point);
-					T tr4 = Smart<Triangle>(nonCommonedge[3]->getNode1(), nonCommonedge[3]->getNode2(), point);
-					auto cir1 = calCircumcircle(tr1);
-					auto cir2 = calCircumcircle(tr2);
-					auto cir3 = calCircumcircle(tr3);
-					auto cir4 = calCircumcircle(tr4);
-					triangleCircle[tr1] = cir1;
-					triangleCircle[tr2] = cir2;
-					triangleCircle[tr3] = cir3;
-					triangleCircle[tr4] = cir4;
 				}
 			}
-			
 
-			
+			for(auto& edge: nonCommonedge)
+			{
+				T tr1 = Smart<Triangle>(edge->getNode1(), edge->getNode2(), point);
+				auto cir1 = calCircumcircle(tr1);
+				triangleCircle[tr1] = cir1;
+			}
+
+			//for(size_t i = 0; i < commonTriangle.size() - 1; i++)
+			//{
+			//	for(size_t j = i + 1; j < commonTriangle.size(); j++)
+			//	{
+			//		auto common = findCommonedge(commonTriangle[i], commonTriangle[j]);
+			//		if(common == nullptr)
+			//		{
+			//			continue;
+			//		}
+			//		triangleCircle.erase(commonTriangle[i]);
+			//		triangleCircle.erase(commonTriangle[j]);
+			//		//get noncommon edge
+			//		auto nonCommonedge = commonTriangle[i]->getEdges();
+			//		for (auto& nonedge : commonTriangle[j]->getEdges())
+			//		{
+			//			auto it = find(nonCommonedge.begin(), nonCommonedge.end(), nonedge);
+			//			if (it == nonCommonedge.end())
+			//			{
+			//				nonCommonedge.emplace_back(nonedge);
+			//			}
+			//			else
+			//			{
+			//				nonCommonedge.erase(it);
+			//			}
+			//		}
+			//		if(nonCommonedge.size() != 4)
+			//		{
+			//			int a = 0;
+			//		}
+			//		T tr1 = Smart<Triangle>(nonCommonedge[0]->getNode1(), nonCommonedge[0]->getNode2(), point);
+			//		T tr2 = Smart<Triangle>(nonCommonedge[1]->getNode1(), nonCommonedge[1]->getNode2(), point);
+			//		T tr3 = Smart<Triangle>(nonCommonedge[2]->getNode1(), nonCommonedge[2]->getNode2(), point);
+			//		T tr4 = Smart<Triangle>(nonCommonedge[3]->getNode1(), nonCommonedge[3]->getNode2(), point);
+			//		auto cir1 = calCircumcircle(tr1);
+			//		auto cir2 = calCircumcircle(tr2);
+			//		auto cir3 = calCircumcircle(tr3);
+			//		auto cir4 = calCircumcircle(tr4);
+			//		triangleCircle[tr1] = cir1;
+			//		triangleCircle[tr2] = cir2;
+			//		triangleCircle[tr3] = cir3;
+			//		triangleCircle[tr4] = cir4;
+			//	}
+			//}
+
 		}
 	}
 
 	std::cout << "[Mesh] [Delaunay] Success to mesh structure.\n";
 
+	for(auto& [triangle, cir]: triangleCircle)
+	{
+		auto nodes = superTriangle->getNodes();
+		bool isSuperedge = false;
+		for (auto& node : nodes) 
+		{
+			isSuperedge = triangle->findNode(node);
+
+			if (isSuperedge == true) 
+			{
+				break;
+			}
+		}
+		if(!isSuperedge)
+		{
+			T triangleNew = Smart<Triangle>(*triangle);
+			mesh->inserTriangle(triangleNew);
+		}
+	}
 
 	return mesh;
 }

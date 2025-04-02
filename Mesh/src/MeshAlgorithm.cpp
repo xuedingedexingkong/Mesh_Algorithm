@@ -114,9 +114,9 @@ bool meshAlgorithmbase::inCircle(P& point, Circumcircle& cir)
 
 std::vector<P>& meshAlgorithmbase::generate2dPoints(double xmin, double xmax, double ymin, double ymax, size_t pointnum)
 {
-	//std::random_device seed;
-	size_t seed = 10;
-	std::mt19937 gen(seed);
+	std::random_device seed;
+	//size_t seed = 10;
+	std::mt19937 gen(seed());
 
 	std::uniform_real_distribution<> dis(0.0, 1.0);
 

@@ -34,6 +34,46 @@ bool operator==(const E& edge1, const E& edge2)
 	return false;
 }
 
+bool operator==(const T& triangle1, const T& triangle2)
+{
+	auto edge1 = triangle1->getEdges();
+	auto edge2 = triangle2->getEdges();
+
+	for(auto& edge: edge1)
+	{
+		if(std::find(edge2.begin(), edge2.end(), edge) == edge2.end())
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+size_t Point::Hash::operator() (const P& point) const
+{
+	return std::hash<double>()(point->getx()) ^ std::hash<double>()(point->gety());
+}
+
+size_t Edge::Hash::operator()(const E& edge) const
+{
+	size_t h1 = std::hash<P>()(edge->getNode1());
+	size_t h2 = std::hash<P>()(edge->getNode2());
+
+	return h1 ^ h2;
+}
+
+std::size_t Triangle::operator()(const T& triangle)
+{
+	auto edges = triangle->getEdges();
+	size_t h1 = std::hash<E>()(edges[0]);
+	size_t h2 = std::hash<E>()(edges[1]);
+	size_t h3 = std::hash<E>()(edges[2]);
+
+	return h1 ^ h2 ^ h3;
+}
+
+
 double Point::distance(P point)
 {
 	auto x1 = point->getx() - this->getx();
@@ -41,6 +81,16 @@ double Point::distance(P point)
 	auto z1 = point->getz() - this->getz();
 
 	return sqrt(x1 * x1 + y1 * y1 + z1 * z1);
+}
+
+bool Edge::findNode(const P& node)
+{
+	if(this->node1 == node || this->node2 == node)
+	{
+		return true;
+	}
+
+	return false;
 }
 
 
@@ -62,6 +112,31 @@ std::vector<E> Triangle::getEdges()
 	return edges;
 }
 
+bool Triangle::findEdge(const E& edge)
+{
+	if(edge == this->edge1 || edge == this->edge2 || edge == this->edge3)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool Triangle::findNode(const P& node)
+{
+	auto edges = this->getEdges();
+	bool inEdge = false;
+	for(auto& edge: edges)
+	{
+		inEdge = edge->findNode(node);
+		if (inEdge == true)
+			return true;
+	}
+
+	return false;
+}
+
+
 void Mesh::setTriangle(std::vector<T>& tri)
 {
 	Physicaltriangle = std::move(tri);
@@ -69,11 +144,7 @@ void Mesh::setTriangle(std::vector<T>& tri)
 	//update Physicalnode
 	for(auto& tri: Physicaltriangle)
 	{
-		auto nodes = tri->getNodes();
-		for (auto& node : nodes) 
-		{
-			Physicalnode.insert(node);
-		}
+		inserTriangle(tri);
 	}
 }
 
@@ -85,4 +156,15 @@ const std::vector<T>& Mesh::getTriangle()
 const std::unordered_set<P>& Mesh::getNode()
 {
 	return Physicalnode;
+}
+
+void Mesh::inserTriangle(T& triangle)
+{
+	Physicaltriangle.emplace_back(triangle);
+
+	auto nodes = triangle->getNodes();
+	for (auto& node : nodes)
+	{
+		Physicalnode.insert(node);
+	}
 }

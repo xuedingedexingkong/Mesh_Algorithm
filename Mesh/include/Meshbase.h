@@ -12,6 +12,8 @@ std::shared_ptr<T> Smart(Args&&... args) {
     return std::make_shared<T>(std::forward<Args>(args)...);
 }
 
+
+
 //class Halfedge
 //{
 //public:

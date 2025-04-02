@@ -5,12 +5,17 @@
 
 void FileIOVtu::meshTovtu(const std::shared_ptr<Mesh>& mesh, std::string cwd)
 {
-	std::cout << "[FileIO] Begin to print mesh.\n";
-
 	auto& triangles = mesh->getTriangle();
 
+	meshTovtu(triangles, cwd);
+}
+
+void FileIOVtu::meshTovtu(const std::vector<T>& triangles, std::string cwd)
+{
+	std::cout << "[FileIO] Begin to print mesh.\n";
+
 	std::ofstream file(cwd);
-	if(!file.is_open())
+	if (!file.is_open())
 	{
 		meshError("[FileIO] Not found file: " + cwd);
 	}
@@ -21,9 +26,9 @@ void FileIOVtu::meshTovtu(const std::shared_ptr<Mesh>& mesh, std::string cwd)
 	file << "    <Piece NumberOfPoints=\"" << 3 * triangles.size() << "\" NumberOfCells=\"" << triangles.size() << "\">" << std::endl;
 	file << "      <Points>" << std::endl << "        <DataArray type=\"Float64\" NumberOfComponents=\"3\" format=\"ascii\">" << std::endl;
 
-	for(auto& triangle: triangles)
+	for (auto& triangle : triangles)
 	{
-		for(auto& node: triangle->getNodes())
+		for (auto& node : triangle->getNodes())
 		{
 			file << "          " << node->getx() << " " << node->gety() << " " << node->getz() << "\n";
 		}
@@ -31,7 +36,7 @@ void FileIOVtu::meshTovtu(const std::shared_ptr<Mesh>& mesh, std::string cwd)
 	file << "        </DataArray>" << std::endl << "      </Points>" << std::endl << "      <Cells>" << std::endl;
 	file << "        <DataArray type=\"Int32\" Name=\"connectivity\" format=\"ascii\">" << std::endl;
 
-	for(size_t i = 0; i < triangles.size(); i++)
+	for (size_t i = 0; i < triangles.size(); i++)
 	{
 		file << "          " << i * 3 << " " << i * 3 + 1 << " " << i * 3 + 2 << "\n";
 	}
@@ -51,16 +56,7 @@ void FileIOVtu::meshTovtu(const std::shared_ptr<Mesh>& mesh, std::string cwd)
 	std::cout << "[FileIO] Success to print mesh.\n";
 }
 
-void FileIOVtu::meshTovtu(std::vector<T>& triangles, std::string cwd)
-{
-	auto m = Smart<Mesh>();
-
-	m->setTriangle(triangles);
-
-	meshTovtu(m, cwd);
-}
-
-void FileIOVtu::meshTovtu(std::unordered_map<T, meshAlorithm::Circumcircle>& triangles, std::string cwd)
+void FileIOVtu::meshTovtu(const std::unordered_map<T, meshAlorithm::Circumcircle>& triangles, std::string cwd)
 {
 	std::vector<T> t;
 	for(auto& [triangle, circle]: triangles)
@@ -71,7 +67,7 @@ void FileIOVtu::meshTovtu(std::unordered_map<T, meshAlorithm::Circumcircle>& tri
 	meshTovtu(t, cwd);
 }
 
-void FileIOVtu::nodeTovtu(std::vector<P>& nodes, std::string cwd)
+void FileIOVtu::nodeTovtu(const std::vector<P>& nodes, std::string cwd)
 {
 	std::cout << "[FileIO] Begin to print nodes.\n";
 
