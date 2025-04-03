@@ -19,8 +19,8 @@ int main()
 
 
 	FileIOVtu t;
-	//t.meshTovtu(mesh->getNode(), "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunay.vtu");
-	t.meshTovtu(mesh, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunay.vtu");
+	//t.meshTovtu(mesh->getNode(), "D:\\Delaunay.vtu");
+	t.meshTovtu(mesh, "D:\\Delaunay.vtu");
 
 	
 }
