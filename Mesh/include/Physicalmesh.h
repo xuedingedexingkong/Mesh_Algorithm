@@ -72,7 +72,7 @@ class Triangle
 {
 public:
 	Triangle() = default;
-	Triangle(P a, P b, P c) 
+	Triangle(P& a, P& b, P& c) 
 	{
 		edge1 = Smart<Edge>(a, b);
 		edge2 = Smart<Edge>(b, c);

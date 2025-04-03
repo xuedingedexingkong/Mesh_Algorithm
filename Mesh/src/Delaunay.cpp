@@ -63,7 +63,7 @@ std::shared_ptr<Mesh>& meshAlorithm::Delaunay::Bowyer_Watsonsolver() {
 
 	for(auto& point: this->points)
 	{
-		FileIOVtu test;
+		//FileIOVtu test;
 
 		/*test.meshTovtu(triangleCircle, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunaymesh_" + std::to_string(num) + ".vtu");
 		if(num == 0) test.nodeTovtu(this->points, "D:\\work\\TCAD\\My_Soft\\build\\test\\Delaunaynode_" + std::to_string(num) + ".vtu");
@@ -115,7 +115,9 @@ std::shared_ptr<Mesh>& meshAlorithm::Delaunay::Bowyer_Watsonsolver() {
 
 			for(auto& edge: nonCommonedge)
 			{
-				T tr1 = Smart<Triangle>(edge->getNode1(), edge->getNode2(), point);
+				E edge1 = Smart<Edge>(point, edge->getNode1());
+				E edge2 = Smart<Edge>(point, edge->getNode2());
+				T tr1 = Smart<Triangle>(edge1, edge2, edge);
 				auto cir1 = calCircumcircle(tr1);
 				triangleCircle[tr1] = cir1;
 			}

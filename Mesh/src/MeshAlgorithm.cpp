@@ -132,3 +132,19 @@ std::vector<P>& meshAlgorithmbase::generate2dPoints(double xmin, double xmax, do
 
 	return generate_Points;
 }
+
+std::vector<P>& meshAlgorithmbase::uniform2dPoints(double xmin, double xmax, size_t xnum, double ymin, double ymax, size_t ynum)
+{
+	double dx = (xmax - xmin) / (xnum - 1);
+	double dy = (ymax - ymin) / (ynum - 1);
+	for (size_t i = 0; i < xnum; i++)
+	{
+		for (size_t j = 0; j < ynum; j++)
+		{
+			P point = Smart<Point>(xmin + i * dx, ymin + j * dy);
+			generate_Points.emplace_back(point);
+		}
+	}
+
+	return generate_Points;
+}
