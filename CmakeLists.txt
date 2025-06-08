@@ -17,6 +17,8 @@ add_library(MeshLib STATIC
     Mesh/include/MeshAlgorithm.h
     Mesh/include/Physicalmesh.h
     Mesh/include/Mesherrormag.h
+    Mesh/include/Tool.h
+    Mesh/src/Tool.cpp
     Mesh/src/MeshAlgorithm.cpp
     Mesh/src/Delaunay.cpp
     Mesh/src/Meshbase.cpp
