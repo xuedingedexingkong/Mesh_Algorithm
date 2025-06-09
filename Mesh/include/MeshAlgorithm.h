@@ -21,6 +21,7 @@ namespace meshAlorithm {
 
 		//test points
 		std::vector<P>& generate2dPoints(double xmin, double xmax, double ymin, double ymax, size_t pointnum);
+		std::vector<P>& generate3dPoints(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax, size_t pointnum);
 		std::vector<P>& uniform2dPoints(double xmin, double xmax, size_t xnum, double ymin, double ymax, size_t ynum);
 		std::vector<P>& generate2dgeometry(){};
 

@@ -133,6 +133,29 @@ std::vector<P>& meshAlgorithmbase::generate2dPoints(double xmin, double xmax, do
 	return generate_Points;
 }
 
+std::vector<P>& meshAlgorithmbase::generate3dPoints(double xmin, double xmax, double ymin, double ymax, double zmin, double zmax, size_t pointnum)
+{
+	std::random_device seed;
+	//size_t seed = 10;
+	std::mt19937 gen(seed());
+
+	std::uniform_real_distribution<> dis(0.0, 1.0);
+
+	double dx = xmax - xmin;
+	double dy = ymax - ymin;
+	double dz = zmax - zmin;
+	for (size_t i = 0; i < pointnum; i++)
+	{
+		double x = dis(gen) * dx + xmin;
+		double y = dis(gen) * dy + ymin;
+		double z = dis(gen) * dz + zmin;
+		P point = Smart<Point>(x, y, z);
+		generate_Points.emplace_back(point);
+	}
+
+	return generate_Points;
+}
+
 std::vector<P>& meshAlgorithmbase::uniform2dPoints(double xmin, double xmax, size_t xnum, double ymin, double ymax, size_t ynum)
 {
 	double dx = (xmax - xmin) / (xnum - 1);

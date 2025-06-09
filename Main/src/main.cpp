@@ -8,30 +8,24 @@ using namespace meshAlorithm;
 
 int main()
 {
-	
-	std::vector<double>test;
-	for (int i = 0; i < 100; i++) {
-		double x = rand();
-		test.push_back(x);
-	}
 
 
-	//auto start = std::chrono::high_resolution_clock::now();
+	auto start = std::chrono::high_resolution_clock::now();
 
-	//std::shared_ptr<Delaunay> test = Smart<Delaunay>();
-	//auto& point = test->generate2dPoints(0, 10, 0, 10, 10000);
+	std::shared_ptr<Delaunay> test = Smart<Delaunay>();
+	auto& point = test->generate2dPoints(0, 10, 0, 10, 10000);
 
-	//test->setPoints(point);
-	//auto& mesh = test->pointsMesh(DELAUNAY::Bowyer_Watson);
+	test->setPoints(point);
+	auto& mesh = test->pointsMesh(DELAUNAY::Bowyer_Watson);
 
-	//auto end = std::chrono::high_resolution_clock::now();
-	//auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
-	//std::cout << "Program Execution Time: " << duration.count() << " milliseconds." << std::endl;
+	auto end = std::chrono::high_resolution_clock::now();
+	auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+	std::cout << "Program Execution Time: " << duration.count() << " milliseconds." << std::endl;
 
 
-	//FileIOVtu t;
-	////t.meshTovtu(mesh->getNode(), "D:\\Delaunay.vtu");
-	//t.meshTovtu(mesh, "D:\\Delaunay.vtu");
+	FileIOVtu t;
+	//t.meshTovtu(mesh->getNode(), "D:\\Delaunay.vtu");
+	t.meshTovtu(mesh, "D:\\Delaunay.vtu");
 
 	
 }
